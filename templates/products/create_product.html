@@ -1,0 +1,31 @@
+<!-- create_product.html -->
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %} Adding Product Page{% endblock title %}
+
+{% block content %}
+<div class="wrapper">
+  <div class="content">
+    <div class="add">
+      <h2>Create Product</h2>
+      {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+  
+      <form method="post" action="{% url 'create_product' %}">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <a href="{% url 'create_category' %}">Add Category</a>
+
+        <button type="submit">Create Product</button>
+      </form>
+    </div>
+  </div>
+</div>
+  
+{% endblock content %}

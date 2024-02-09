@@ -1,0 +1,71 @@
+<!-- your_app/templates/inventory/storekeeper.html -->
+
+{% extends 'base.html' %}
+{% block title %} Storekeeper Approval Page{% endblock title %}
+
+{% block content %}
+<div class="wrapper">
+  <div class="content">
+    {% if pending_requests.count == 1 %}
+      <h3>You Have {{ pending_requests.count }}: Pending Request</h3>
+    {% else %}
+      <h3>You Have {{ pending_requests.count }}: Pending Requests</h3>
+    {% endif %}
+  
+    <!-- Display individual products with approval and rejection buttons -->
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in products %}
+          <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.quantity }}</td>
+            <td><a href="{% url 'product_detail' product.id %}">View </a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <!-- Display a section to approve all pending requests -->
+    
+    <div class="add">
+      <ul>
+        {% if pending_requests|length == 0 %}
+          <h3>No Pending Requests</h3>
+        {% else %}
+          {% if pending_requests.count == 1 %}
+            <h3>{{ pending_requests.count }}: Pending Request left</h3>
+          {% else %}
+            <h3>{{ pending_requests.count }}: Pending Requests left</h3>
+          {% endif %}
+          {% for request in pending_requests %}
+            <li>
+              Requested by: {{ request.requested_by.full_name }} |
+              Product: {{ request.product.name }} |
+              Quantity: {{ request.quantity }}
+              <form method="post" action="{% url 'store_keeper_approval' request.product.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="request_id" value="{{ request.id }}">
+                <input type="hidden" name="quantity" value="{{ request.quantity }}">
+                <button type="submit">Approve</button>
+              </form>
+              <form method="post" action="{% url 'store_keeper_reject' request.product.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="request_id" value="{{ request.id }}">
+                <button type="submit">Reject</button>
+              </form>
+            </li>
+          {% endfor %}
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</div>
+  
+{% endblock content %}

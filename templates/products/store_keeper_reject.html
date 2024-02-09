@@ -1,0 +1,56 @@
+<!-- your_app/templates/inventory/store_keeper_reject.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Store Keeper Reject</h2>
+  
+  <h3>Product: {{ product.name }}</h3>
+
+  <table border="1">
+    <thead>
+      <tr>
+        <th>Request ID</th>
+        <th>Requested by</th>
+        <th>Quantity</th>
+        <th>Status</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for request in requests %}
+        <tr>
+          <td>{{ request.id }}</td>
+          <td>{{ request.requested_by.username }}</td>
+          <td>{{ request.quantity }}</td>
+          <td>{{ request.status }}</td>
+          <td>
+            {% if request.status == 'pending' %}
+              <form method="post" action="{% url 'store_keeper_approval' product.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="request_id" value="{{ request.id }}">
+                <input type="hidden" name="quantity" value="{{ request.quantity }}">
+                <input type="hidden" name="product_id" value="{{ product.id }}">
+                <button type="submit">Approve</button>
+              </form>
+              <form method="post" action="{% url 'store_keeper_reject' product.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="request_id" value="{{ request.id }}">
+                <button type="submit">Reject</button>
+              </form>
+            {% else %}
+              N/A
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h3>Rejection Form</h3>
+  <form method="post" action="{% url 'store_keeper_reject' product.id %}">
+    {% csrf_token %}
+    <input type="hidden" name="request_id" value="{{ product.request.id }}">
+    <button type="submit">Reject</button>
+  </form>
+{% endblock %}

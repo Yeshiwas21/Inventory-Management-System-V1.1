@@ -1,0 +1,53 @@
+<!-- your_app/templates/your_app/user_products.html -->
+
+{% extends 'base.html' %}
+{% block title %} User Products Page{% endblock title %}
+
+{% block content %}
+
+<div class="wrapper">
+  <div class="content">
+    {% if assigned_requests|length == 0 %}
+      <h2>You have No Assigned Products Yet!!!</h2>
+    {% else %}
+      <h2>Your Assigned Products:</h2>
+      <table border="1">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Serial Number</th>
+            <th>Approved Quantity</th>
+            <th>Storekeeper approved By </th>
+            <th>Admin approved By </th>
+            <th>Storekeeper Approved Date</th>
+            <th>Admin Approved Date</th>
+            <th>Action</th>
+            <!-- Add more table headers as needed -->
+          </tr>
+        </thead>
+        <tbody>
+          {% for request_instance in assigned_requests %}
+            {% if request_instance.assignet_to %}
+              <tr>
+                <td>{{ request_instance.product.id }}</td>
+                <td>{{ request_instance.product.name }}</td>
+                <td>{{ request_instance.product.serial }}</td>
+                <td>{{ request_instance.quantity }}</td>
+                <td>{{ request_instance.storekeeper_approved_by.full_name }}</td>
+                <td>{{ request_instance.admin_approved_by.full_name }}</td>
+                <td>{{ request_instance.storekeeper_approved_date }}</td>
+                <td>{{ request_instance.admin_approved_date }}</td>
+                <td><a href="#">Return</a></td>
+                <!-- Add more table cells with product details as needed -->
+              </tr>
+            {% endif %}
+
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endif %}
+  </div>
+</div>
+  
+{% endblock content %}

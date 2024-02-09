@@ -1,0 +1,54 @@
+<!-- your_app/templates/products/product_detail.html -->
+
+{% extends 'base.html' %}
+{% block title %} Product Detail {% endblock title %}
+{% block content %}
+<div class="wrapper">
+  <div class="content">
+    <div class="add">
+      <h2>Product Detail: {{ product.name }}</h2>
+      <p>Quantity: {{ product.quantity }}</p>
+      
+      {% if product.assigned_to %}
+        <p>Assigned to: {{ product.assigned_to.username }}</p>
+      {% else %}
+        <p>Not yet assigned.</p>
+      {% endif %}
+
+      {% if approved_requests %}
+        <h3>Approved Requests:</h3>
+        <ul>
+          {% for request_instance in approved_requests %}
+            <li><b>Requested by: </b> {{ request_instance.requested_by.full_name }} - <b>Quantity:</b> {{ request_instance.quantity }} - <b style="color:green;">Approved</b></li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No approved requests yet.</p>
+      {% endif %}
+
+      {% if pending_requests %}
+        <h3>Pending Requests:</h3>
+        <ul>
+          {% for request_instance in pending_requests %}
+            <li><b>Requested by: </b>{{ request_instance.requested_by.full_name }} - <b>Quantity: </b> {{ request_instance.quantity }} - <b>Status: </b>- <b style="color:chartreuse;">Pending Approval</b></li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No pending requests yet.</p>
+      {% endif %}
+
+      {% if rejected_requests %}
+        <h3>Rejected Requests:</h3>
+        <ul>
+          {% for request_instance in rejected_requests %}
+            <li><b>Requested by: </b>{{ request_instance.requested_by.full_name }} - <b>Quantity: </b> {{ request_instance.quantity }} - <b>Status: </b> - <b style="color:red;">Rejected</b></li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>No rejected requests yet.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+  
+{% endblock content %}

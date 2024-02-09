@@ -1,0 +1,19 @@
+<!-- base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ... -->
+    <title>{% block title %} {% endblock title %}</title>
+
+</head>
+<body>
+    {% include 'nav_main.html' %}
+    {% block content %}
+   
+   
+    {% endblock content %}
+    <footer>
+        &c 2024
+    </footer>
+</body>
+</html>

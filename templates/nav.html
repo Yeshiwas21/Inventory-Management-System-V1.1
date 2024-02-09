@@ -1,0 +1,44 @@
+<header>
+    <h1><a href="{% url 'index' %}">My Website</a></h1>
+    <nav>
+        <ul>
+            {% if user.is_authenticated %}
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <h3 style="color: chocolate;">Welcome, {{ user.full_name}}</h3>
+                {% if user.user_type == 'normal' %}
+                    <li><a href="{% url 'product_list' %}">All Products List</a></li>
+                    <li><a href="{% url 'user_products' %}">My Products List</a></li>
+                    <li><a href="{% url 'user_requests_status' %}">My Request(s) Status</a></li>
+                {% elif user.user_type == 'storekeeper' %}
+                    <li><a href="{% url 'user_list' %}">User List</a></li>
+                    <li><a href="{% url 'register_user' %}">Register User</a></li>
+                    <li><a href="{% url 'create_product' %}">Add Product</a></li>
+                    <li><a href="{% url 'product_list' %}">Product List</a></li>
+                    <li><a href="{% url 'user_products' %}">My Products List</a></li>
+                    <li><a href="{% url 'user_requests_status' %}">My Request(s) Status</a></li>
+                    <li><a href="{% url 'create_category' %}">Add Category</a></li>
+                    <li><a href="{% url 'store_keeper' %}">Storekeeper Approval</a></li>
+                {% elif user.user_type == 'admin' %}
+                    <li><a href="{% url 'admin_view' %}">Admin Approval</a></li>
+                    <li><a href="{% url 'create_product' %}">Add Product</a></li>
+                    <li><a href="{% url 'product_list' %}">Product List</a></li>
+                    <li><a href="{% url 'register_user' %}">Register User</a></li>
+                    <li><a href="{% url 'user_list' %}">User List</a></li>
+                    <li><a href="{% url 'user_products' %}">My Products List</a></li>
+                    <li><a href="{% url 'user_requests_status' %}">My Request(s) Status</a></li>
+                    <li><a href="{% url 'create_category' %}">Add Category</a></li>
+                {% endif %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+            {% endif %}
+            <!-- Add other navigation links as needed -->
+        </ul>
+    </nav>
+</header>

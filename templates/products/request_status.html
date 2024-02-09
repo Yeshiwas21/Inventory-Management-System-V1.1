@@ -1,0 +1,43 @@
+<!-- your_app/templates/your_app/user_requests_status.html -->
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}    
+
+{% block title %} Request Status {% endblock title %}
+{% block content %}
+<div class="wrapper">
+  <div class="content">
+    {% if user_requests|length == 0 %}
+        <h2>You didn't request any product yet !!!</h2> 
+    {% else %}
+        <h2>Requests Overview</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Requested Quantity</th>
+                    <th>Storekeeper Approval</th>
+                    <th>Storekeeper</th>
+                    <th>Admin Approval</th>
+                    <th>Admin</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request_instance in user_requests %}
+                    <tr>
+                        <td>{{ request_instance.product.name }}</td>
+                        <td>{{ request_instance.quantity }}</td>
+                        <td>{{ request_instance.storekeeper_approval_status }}</td>
+                        <td>{{ request_instance.storekeeper_approved_by.full_name }}</td>
+                        <td>{{ request_instance.admin_approval_status }}</td>
+                        <td>{{ request_instance.admin_approved_by.full_name }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+  </div>
+</div>
+          
+
+{% endblock content%}

@@ -1,0 +1,21 @@
+<!-- your_app/templates/your_app/request_product.html -->
+
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %} Product Request Page {% endblock title %}
+{% block content %}
+<div class="wrapper">
+  <div class="content">
+    <div class="add">
+      <h2>Request Product: {{ product.name }}</h2>
+      <form method="post" action="">
+        {% csrf_token %}
+        {{ request_form|crispy }}
+        <button type="submit">Submit Request</button>
+      </form>
+    </div>
+  </div>
+</div>
+  
+  
+{% endblock content %}

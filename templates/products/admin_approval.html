@@ -1,0 +1,58 @@
+<!-- your_app/templates/inventory/admin_approval.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="wrapper">
+  <div class="content">
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    <h2>Admin Approval</h2>
+  
+    <h3>Product: {{ product.name }}</h3>
+
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Request ID</th>
+          <th>Requested by</th>
+          <th>Quantity</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for request in requests %}
+          <tr>
+            <td>{{ request.id }}</td>
+            <td>{{ request.requested_by.full_name }}</td>
+            <td>{{ request.quantity }}</td>
+            <td>{{ request.status }}</td>
+            <td>
+              {% if request.status == 'approved' %}
+                N/A
+              {% else %}
+                <form method="post" action="{% url 'admin_approval' product.id %}">
+                  {% csrf_token %}
+                  <input type="hidden" name="request_id" value="{{ request.id }}">
+                  <input type="hidden" name="quantity" value="{{ request.quantity }}">
+                  <input type="hidden" name="product_id" value="{{ product.id }}">  <!-- Add this line -->
+                  <input type="hidden" name="product_name" value="{{ product.name }}">  <!-- Add this line -->
+                  <p>N/A</p>
+                </form>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+  
+{% endblock content %}

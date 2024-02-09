@@ -1,0 +1,27 @@
+<!-- edit_product.html -->
+
+{% extends 'base.html' %}
+{% block title %} Edit Product Page{% endblock title %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="wrapper">
+  <div class="content">
+    <div class="add">
+      <h2>Edit: {{ product.name }}</h2>
+      {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      
+      <form method="post" action="{% url 'edit_user' user.id %}">
+        {% csrf_token %}
+        {{ edit_user_form|crispy }}
+        <button type="submit">Update User</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}

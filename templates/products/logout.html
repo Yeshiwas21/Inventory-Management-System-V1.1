@@ -1,0 +1,21 @@
+<!-- app_name/templates/registration/login.html -->
+{% extends 'base.html' %}
+
+
+{% load crispy_forms_tags %}
+
+{% block title %} Login Page{% endblock title %}
+{% block content %}
+<div class="wrapper">
+  <div class="content">
+    <div class="logout">
+
+		<h2>You Have Been Logged Out</h2>
+		<small class="text-muted">
+			<a href="{% url 'login' %}">Log In Again</a>
+		</small>
+	</div>
+  </div>
+</div>                
+
+{% endblock content %}

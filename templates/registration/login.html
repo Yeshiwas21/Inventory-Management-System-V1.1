@@ -1,0 +1,32 @@
+<!-- app_name/templates/registration/login.html -->
+{% extends 'base.html' %}
+
+
+{% load crispy_forms_tags %}
+
+{% block title %} Login Page{% endblock title %}
+{% block content %}
+<div class="wrapper">
+  <div class="content">
+    <div class="login">
+      <h2>Login</h2>
+      {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                    <li class="{{ message.tags }}">{{ message }}</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+      {% endif %}
+      <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        {{ login_form|crispy }}
+        <button class="btn btn-success" style="width: 80px; height: 40px; font-size: 24px;">Login</button>
+      </form>
+    </div>
+  </div>
+</div>                
+
+ 
+{% endblock content %}

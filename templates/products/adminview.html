@@ -1,0 +1,76 @@
+<!-- your_app/templates/your_app/admin_view.html -->
+
+{% extends 'base.html' %}
+{% block title %} Admin Approval Page{% endblock title %}
+
+{% block content %}
+<div class="wrapper">
+  <div class="content">
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    {% if pending_requests.count == 1 %}
+      <h3>You Have {{ pending_requests.count }}: Pending Request</h3>
+    {% else %}
+      <h3>You Have {{ pending_requests.count }}: Pending Requests</h3>
+    {% endif %}
+  
+    <!-- Display individual products with approval buttons -->
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in products %}
+          <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.quantity }}</td>
+            <td><a href="{% url 'product_detail_admin' product.id %}">View </a></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <!-- Display a section to approve all pending requests -->
+    <div class="add">
+        <ul>
+          {% if pending_requests|length == 0 %}
+          <h2>No Pending Requests</h2>
+          {% else %}
+            {% if pending_requests.count == 1 %}
+              <h3>{{ pending_requests.count }}: Pending Request left</h3>
+            {% else %}
+              <h3>{{ pending_requests.count }}: Pending Requests left</h3>
+             {% endif %}
+          {% for request in pending_requests %}
+            <li>
+              Requested by: {{ request.requested_by.full_name }} |
+              Product: {{ request.product.name }} |
+              Quantity: {{ request.quantity }}
+              <form method="post" action="{% url 'admin_approval' request.product.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="request_id" value="{{ request.id }}">
+                <input type="hidden" name="quantity" value="{{ request.quantity }}">
+                <button type="submit">Approve</button>
+              </form>
+              <form method="post" action="{% url 'admin_reject' request.product.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="request_id" value="{{ request.id }}">
+                <button type="submit">Reject</button>
+              </form>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

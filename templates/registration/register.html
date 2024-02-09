@@ -1,0 +1,20 @@
+<!-- register.html -->
+
+{% extends 'base.html' %}
+{% block title %} User Registration Page{% endblock title %}
+
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="wrapper">
+  <div class="content">
+    <div class="add">
+      <h2>User Registration</h2>
+      <form method="post" action="{% url 'register_user' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ user_register_form|crispy }}
+        <button type="submit">Register</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}
