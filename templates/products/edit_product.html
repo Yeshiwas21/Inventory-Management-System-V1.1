@@ -19,7 +19,8 @@
       <form method="post" action="{% url 'edit_product' product.id %}">
         {% csrf_token %}
         {{ edit_form|crispy }}
-        <button type="submit">Update Product</button>
+        <br/>
+        <button type="submit" style="font-size: 18px;">Update Product</button>
       </form>
     </div>
   </div>
