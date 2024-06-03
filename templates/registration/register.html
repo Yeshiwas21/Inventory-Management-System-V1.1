@@ -12,7 +12,8 @@
       <form method="post" action="{% url 'register_user' %}" enctype="multipart/form-data">
         {% csrf_token %}
         {{ user_register_form|crispy }}
-        <button type="submit">Register</button>
+        <br/>
+        <button type="submit" style="font-size: 18px;">Register</button>
       </form>
     </div>
   </div>

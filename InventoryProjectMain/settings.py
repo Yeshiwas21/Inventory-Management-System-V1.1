@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'InventoryProjectMain.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME':'store',
+        'NAME': 'store',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': '127.0.0.1',
@@ -93,6 +93,7 @@ DATABASES = {
         'OPTION': {'init_command': "SET sql_mode = 'STRICT_TRNS_TABLE',"},
     }
 }
+
 
 AUTHENTICATION_BACKENDS = [
     'inventory.backends.CustomBackend', 

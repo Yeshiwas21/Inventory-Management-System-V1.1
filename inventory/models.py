@@ -30,6 +30,7 @@ class UserProfile(AbstractUser):
         verbose_name='user permissions',
         help_text='Specific permissions for this user.',
     )
+    
 
 
 

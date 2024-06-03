@@ -5,9 +5,29 @@ from django.forms.widgets import PasswordInput, TextInput
 from .models import UserProfile, Storekeeper
 
 class CustomUserCreationForm(UserCreationForm):
-      class Meta:
+    class Meta:
         model = UserProfile
         fields = ['full_name', 'position', 'user_type', 'email', 'phone','username', 'password1', 'password2', 'image']
+
+        widgets = {
+            'full_name': forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 200px;height: 30px; font-size: 20px;'}),
+            'position': forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 200px;height: 30px; font-size: 20px;'}),
+            'user_type': forms.Select(attrs={'class': 'form-control', 'style': 'width: 200px;height: 30px; font-size: 20px;'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control', 'style': 'width: 200px;height: 30px; font-size: 20px;'}),
+            'phone': forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 200px;height: 30px; font-size: 20px;'}),
+            'username': forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 200px;height: 30px; font-size: 20px;'}),
+            'password1': forms.PasswordInput(attrs={'class': 'form-control', 'style': 'width: 200px;height: 30px; font-size: 20px;'}),
+            'password2': forms.PasswordInput(attrs={'class': 'form-control', 'style': 'width: 200px;height: 30px; font-size: 20px;'}),
+            'image': forms.FileInput(attrs={'class': 'form-control large-font',}),
+        }
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'].widget.attrs.update({'class': 'form-control large-font', 'style': 'width: 200px;height: 30px; font-size: 20px;'})
+        self.fields['password2'].widget.attrs.update({'class': 'form-control large-font', 'style': 'width: 200px;height: 30px; font-size: 20px;'})
+
+from django import forms
+from django.contrib.auth.forms import AuthenticationForm
 
 class CustomAuthenticationForm(AuthenticationForm):
     user_type = forms.ChoiceField(
@@ -42,8 +62,9 @@ class CustomAuthenticationForm(AuthenticationForm):
             raise forms.ValidationError('Invalid username, password, or user type.')
 
         return cleaned_data
-    
-    
+
+    class meta:
+        db_table = 'user_profile'
 
 class StorekeeperForm(forms.ModelForm):
     class Meta:

@@ -1,7 +1,4 @@
-<!-- app_name/templates/registration/login.html -->
 {% extends 'base.html' %}
-
-
 {% load crispy_forms_tags %}
 
 {% block title %} Login Page{% endblock title %}
@@ -9,7 +6,7 @@
 <div class="wrapper">
   <div class="content">
     <div class="login">
-      <h2>Login</h2>
+      <h2>Login Page</h2> <br>
       {% if messages %}
         <ul class="messages">
             {% for message in messages %}
@@ -26,7 +23,5 @@
       </form>
     </div>
   </div>
-</div>                
-
- 
+</div>
 {% endblock content %}

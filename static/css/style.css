@@ -118,6 +118,9 @@ body {
     margin-left: 20px;
     padding-left: 10px;
 }
+.wrapper .content .login form{
+    font-size: 20px;
+}
 
 .wrapper .content .add{
     margin-left: 20px;

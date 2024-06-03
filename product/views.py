@@ -148,6 +148,12 @@ class StoreKeeperApprovalView(View):
 
                 requested_quantity = form.cleaned_data['quantity']
 
+                if request_instance.admin_approval_status == 'rejected':
+                    request_instance.storekeeper_approval_status = 'pending'
+                    messages.error(request, 'Admin is already Rejected this request.')
+                                    
+
+
                 if requested_quantity <= product.quantity:
                     # Update product assignment
                     product.storekeeper_approval_status = 'approved'

@@ -20,7 +20,8 @@
       <form method="post" action="{% url 'create_category' %}">
         {% csrf_token %}
         {{ form|crispy }}
-        <button type="submit">Create Category</button>
+        <br/>
+        <button type="submit" style="font-size: 18px;"> Create Category</button>
       </form>
     </div>
   </div>

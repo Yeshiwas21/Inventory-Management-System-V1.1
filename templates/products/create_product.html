@@ -20,9 +20,10 @@
       <form method="post" action="{% url 'create_product' %}">
         {% csrf_token %}
         {{ form|crispy }}
+        <br/>
+        <button type="submit" style="font-size: 18px;">Create Product</button>
         <a href="{% url 'create_category' %}">Add Category</a>
-
-        <button type="submit">Create Product</button>
+       
       </form>
     </div>
   </div>

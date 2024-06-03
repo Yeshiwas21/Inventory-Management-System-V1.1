@@ -7,6 +7,7 @@ from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from .models import UserProfile
 from django.db import transaction
 from django.views.generic import View
+import pdb
 
 
 
@@ -62,39 +63,35 @@ def user_list(request):
 
 def custom_login(request):
     if request.method == 'POST':
-        login_form = CustomAuthenticationForm(request, data=request.POST)
+        login_form = CustomAuthenticationForm(data=request.POST)
         if login_form.is_valid():
-            username=login_form.cleaned_data['username'] 
-            password=login_form.cleaned_data['password']
-            user_type=login_form.cleaned_data['user_type']
-            # Authenticate user
+            username = login_form.cleaned_data['username'] 
+            password = login_form.cleaned_data['password']
+            user_type = login_form.cleaned_data['user_type']
+
             user = authenticate(
                 request, 
                 username=username, 
                 password=password,
                 user_type=user_type
             )
-            print("Authenticated User", user)
             if user is not None:
                 login(request, user)
-                # Redirect users based on their user_type
-                user_type = user_type
                 if user_type == 'normal':
-                    messages.success(request, 'Logged in succeessfuly.')
+                    messages.success(request, 'Logged in successfully.')
                     return redirect('index')
                 elif user_type == 'storekeeper':
-                    messages.success(request, 'Logged in succeessfuly.')
+                    messages.success(request, 'Logged in successfully.')
                     return redirect('store_keeper')
                 elif user_type == 'admin':
-                    messages.success(request, 'Logged in succeessfuly.')
+                    messages.success(request, 'Logged in successfully.')
                     return redirect('admin_view')
             else:
-                messages.error(request, 'Invalid username, password or user type.')
+                messages.error(request, 'Invalid username, password, or user type.')
     else:
         login_form = CustomAuthenticationForm()
 
     return render(request, 'registration/login.html', {'login_form': login_form})
-
 
 
 @transaction.atomic
